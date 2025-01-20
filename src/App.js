@@ -1,12 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { Map } from "./components/Map/Map";
 
 function App() {
-  return (
-    <div className="App">
-  <p>IP ADDRESS TRACKING APP</p>
-    </div>
-  );
+  return <Map />;
 }
 
 export default App;
