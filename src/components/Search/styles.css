@@ -1,0 +1,44 @@
+h1 {
+  color: white;
+  font-size: 40px;
+}
+
+#search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  background-image: url("../../assets/pattern-bg-desktop.png");
+  background-size: cover;
+  width: 100vw;
+  height: 30vh;
+  text-align: center;
+}
+
+#input-container {
+  gap: 0;
+  display: flex;
+  align-items: center;
+}
+
+input {
+  flex: 1;
+  font-size: 16px;
+  border-radius: 8px 0 0 8px;
+  border: solid white;
+  padding: 8px 12px;
+  outline: none;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  width: 40vw;
+  text-align: center;
+}
+
+#search-button {
+  border: 8px solid;
+  border-radius: 0 8px 8px 0;
+  border-left: none;
+  height: 100%;
+  width: 60px;
+  background-color: black;
+}
