@@ -1,58 +1,63 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "./styles.css";
+import { useAppContext } from '../../AppProvider'
 
 const Map = () => {
+  const { setIpResponse, ipResponse } = useAppContext();
   const API_KEY = process.env.REACT_APP_API_KEY;
 
-  const [userIpAddress, setUserIpAddress] = useState("");
-  const [userLat, setUserLat] = useState(null);
-  const [userLng, setUserLng] = useState(null);
+  const [ipAddress, setIPAddress] = useState("");
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
-  const getUserIpAddress = useCallback(async () => {
+  const getIPAddress = useCallback(async () => {
     try {
       const response = await fetch("https://api.ipify.org?format=json");
 
       const { ip } = await response.json();
-      setUserIpAddress(ip);
+      setIPAddress(ip);
     } catch (error) {
-      console.error("Error getting user IP address", error.message);
+      console.error("Error getting IP address", error.message);
     }
   }, []);
 
-  const getUserLocation = useCallback(async () => {
+  const getLocation = useCallback(async () => {
     try {
-      const URL = `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY}&ipAddress=${userIpAddress}`;
+      const URL = `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY}&ipAddress=${ipAddress}`;
       const response = await fetch(URL);
 
-      const { location } = await response.json();
+      const data = await response.json();
+      const { location } = data;
+      console.log("data", data.isp);
       const { lat, lng } = location;
-      const userLat = Math.round((lat + Number.EPSILON) * 100) / 100;
-      const userLng = Math.round((lng + Number.EPSILON) * 100) / 100;
-      setUserLat(userLat);
-      setUserLng(userLng);
+      const latitude = Math.round((lat + Number.EPSILON) * 100) / 100;
+      const longitude = Math.round((lng + Number.EPSILON) * 100) / 100;
+      setIpResponse(data);
+      setLatitude(latitude);
+      setLongitude(longitude);
     } catch (error) {
-      console.error("Error getting user location", error.message);
+      console.error("Error getting map location", error.message);
     }
-  }, [API_KEY, userIpAddress]);
+  }, [API_KEY, ipAddress, setIpResponse]);
+
+  console.log("ip response", ipResponse);
 
   useEffect(() => {
-    getUserIpAddress();
-  }, [getUserIpAddress]);
+    getIPAddress();
+  }, [getIPAddress]);
 
   useEffect(() => {
-    if (userIpAddress) {
-      getUserLocation();
+    if (ipAddress) {
+      getLocation();
     }
-  }, [getUserLocation, userIpAddress]);
-
-  console.log(userLat);
+  }, [getLocation, ipAddress]);
 
   return (
     <>
-      {userLat && userLng && (
+      {latitude && longitude && (
         <MapContainer
-          center={[userLat, userLng]}
+          center={[latitude, longitude]}
           zoom={12}
           scrollWheelZoom={false}
         >
@@ -60,7 +65,7 @@ const Map = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          <Marker key={1} position={[userLat, userLng]} />
+          <Marker key={1} position={[latitude, longitude]} />
         </MapContainer>
       )}
     </>

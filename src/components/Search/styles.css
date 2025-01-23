@@ -42,3 +42,33 @@ input {
   width: 60px;
   background-color: black;
 }
+
+
+@media (max-width: 768px) {
+  input {
+    width: 60vw;
+    font-size: 12px;
+  }
+  #search-container {
+    height: 40vh;
+  }
+}
+
+@media (max-width: 480px) {
+  input {
+    width: 70vw;
+  }
+  #search-container {
+    height: 30vh;
+  }
+}
+
+@media (max-width: 400px) {
+  input {
+    width: 68vw;
+  }
+
+  #search-container {
+    height: 40vh;
+  }
+}

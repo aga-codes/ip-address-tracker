@@ -6,7 +6,7 @@ import { DisplayInfo } from "./components/DisplayInfo/DisplayInfo";
 
 function App() {
   return (
-    <div>
+    <div id='app-container'>
       <Search />
       <DisplayInfo />
       <Map />
