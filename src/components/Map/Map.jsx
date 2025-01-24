@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "./styles.css";
-import { useAppContext } from '../../AppProvider'
+import { useAppContext } from "../../AppProvider";
 
 const Map = () => {
-  const { setIpResponse, ipResponse } = useAppContext();
+  const { setIpResponse, userSearchValue } = useAppContext();
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   const [ipAddress, setIPAddress] = useState("");
@@ -29,7 +29,6 @@ const Map = () => {
 
       const data = await response.json();
       const { location } = data;
-      console.log("data", data.isp);
       const { lat, lng } = location;
       const latitude = Math.round((lat + Number.EPSILON) * 100) / 100;
       const longitude = Math.round((lng + Number.EPSILON) * 100) / 100;
@@ -41,7 +40,11 @@ const Map = () => {
     }
   }, [API_KEY, ipAddress, setIpResponse]);
 
-  console.log("ip response", ipResponse);
+  useEffect(() => {
+    if (userSearchValue) {
+      setIPAddress(userSearchValue);
+    }
+  }, [userSearchValue]);
 
   useEffect(() => {
     getIPAddress();
@@ -53,13 +56,16 @@ const Map = () => {
     }
   }, [getLocation, ipAddress]);
 
+  //TO DO: FALLBACK IF IP ADDRESS IS NOT RIGHT
+
   return (
     <>
       {latitude && longitude && (
         <MapContainer
+          key={`${latitude}-${longitude}`}
           center={[latitude, longitude]}
           zoom={12}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

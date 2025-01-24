@@ -5,23 +5,29 @@ import { useAppContext } from "../../AppProvider";
 const DisplayInfo = () => {
   const { ipResponse } = useAppContext();
 
-  const [ipAddress, setIpAddress] = useState(123);
-  const [location, setLocation] = useState("London");
-  const [timezone, setTimezone] = useState("+00:00");
-  const [isp, setISP] = useState("BRB");
+  const [ipAddress, setIpAddress] = useState("4.2.2.2");
+  const [city, setCity] = useState("Charlotte");
+  const [timezone, setTimezone] = useState("-05:00");
+  const [isp, setISP] = useState("Lumen AS3356");
+  const [location, setLocation] = useState({});
 
   useEffect(() => {
     if (ipResponse) {
-      const { isp, ip } = ipResponse;
-      // const { city, timezone } = ipResponse.location;
-      console.log("ip", ip);
-      console.log("location", ipResponse.location);
+      const { isp, ip, location } = ipResponse;
       setISP(isp);
       setIpAddress(ip);
-      // setTimezone(timezone);
-      // setLocation(city);
+      setLocation(location);
     }
   }, [ipResponse]);
+
+  useEffect(() => {
+    if (location) {
+      const { city, timezone } = location;
+
+      setCity(city);
+      setTimezone(timezone);
+    }
+  }, [location]);
 
   return (
     <div id="display-info-container">
@@ -30,8 +36,8 @@ const DisplayInfo = () => {
         <p>{ipAddress}</p>
       </div>
       <div className="info">
-        <h2>Location</h2>
-        <p>{location}</p>
+        <h2>city</h2>
+        <p>{city}</p>
       </div>
       <div className="info">
         <h2>Timezone</h2>
