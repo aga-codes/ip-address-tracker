@@ -1,6 +1,6 @@
 #display-info-container {
   position: absolute;
-  top: calc(30vh - 60px);
+  top: calc(30vh - 30px);
   left: 50%;
   transform: translateX(-50%);
   justify-self: center;
@@ -16,21 +16,19 @@
   padding: 20px;
 }
 
+#display-info-container h1 {
+  font-size: 20px;
+  letter-spacing: 2.5px;
+  color: black;
+  text-align: center;
+  padding: 20px;
+}
+
 .info {
   text-align: center;
   position: relative;
   padding: 0 40px;
 }
-
-/* .info:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  background-color: grey;
-  top: 0;
-  right: 0;
-  width: 1px;
-  height: 100%;
-} */
 
 .info h2 {
   font-size: 12px;
@@ -71,10 +69,6 @@
     font-size: 12px;
     margin-bottom: 2px;
     font-weight: bold;
-  }
-
-  .info:not(:last-child)::after {
-    display: none;
   }
 }
 

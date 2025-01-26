@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import "./styles.css";
 import { useAppContext } from "../../AppProvider";
+import DOMPurify from "dompurify";
 
 const Search = () => {
   const { setUserSearchValue } = useAppContext();
@@ -8,7 +9,11 @@ const Search = () => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    setUserSearchValue(inputRef.current.value);
+
+    const searchValue = DOMPurify.sanitize(
+      inputRef.current.value.trim()
+    );
+    setUserSearchValue(searchValue);
     inputRef.current.value = "";
   };
   return (
